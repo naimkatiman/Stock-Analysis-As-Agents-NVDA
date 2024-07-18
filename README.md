@@ -1,105 +1,118 @@
-# AI Crew for Stock Analysis
-## Introduction
-This project is an example using the CrewAI framework to automate the process of analyzing a stock. CrewAI orchestrates autonomous AI agents, enabling them to collaborate and execute complex tasks efficiently.
+### Screenshots
 
-By [@joaomdmoura](https://x.com/joaomdmoura)
+![NVIDIA Analysis Input](screenshots/nvdasearch.png)
+![NVIDIA Analysis Output](screenshots/Result.png)
 
-- [CrewAI Framework](#crewai-framework)
-- [Running the script](#running-the-script)
-- [Details & Explanation](#details--explanation)
-- [Using GPT 3.5](#using-gpt-35)
-- [Using Local Models with Ollama](#using-local-models-with-ollama)
-- [Contributing](#contributing)
-- [Support and Contact](#support-and-contact)
-- [License](#license)
+Original project from here https://github.com/crewAIInc/crewAI-examples/tree/main/stock_analysis
 
-## CrewAI Framework
-CrewAI is designed to facilitate the collaboration of role-playing AI agents. In this example, these agents work together to give a complete stock analysis and investment recommendation
+```markdown
+# AI-Powered Stock Analysis Tool
 
-## Running the Script
-It uses GPT-4 by default so you should have access to that to run it.
+This project uses AI agents to perform comprehensive stock analysis, with a special focus on NVIDIA (NVDA). It leverages the CrewAI framework to orchestrate autonomous AI agents for efficient stock analysis.
 
-***Disclaimer:** This will use gpt-4 unless you changed it 
-not to, and by doing so it will cost you money.*
+## Recent Changes and Enhancements
 
-- **Configure Environment**: Copy ``.env.example` and set up the environment variables for [Browseless](https://www.browserless.io/), [Serper](https://serper.dev/), [SEC-API](https://sec-api.io) and [OpenAI](https://platform.openai.com/api-keys)
-- **Install Dependencies**: Run `poetry install --no-root`.
-- **Execute the Script**: Run `python main.py` and input your idea.
+1. **Dependency Updates:**
+   I've updated the project dependencies to include specific versions for better compatibility and reproducibility. The key packages installed are:
 
-## Details & Explanation
-- **Running the Script**: Execute `python main.py`` and input the company to be analyzed when prompted. The script will leverage the CrewAI framework to analyze the company and generate a detailed report.
-- **Key Components**:
-  - `./main.py`: Main script file.
-  - `./stock_analysis_tasks.py`: Main file with the tasks prompts.
-  - `./stock_analysis_agents.py`: Main file with the agents creation.
-  - `./tools`: Contains tool classes used by the agents.
+   ```
+   pip install crewai unstructured==0.10.25 pyowm==3.3.0 tools==0.1.9 wikipedia==1.4.0 yfinance==0.2.35 sec-api==1.0.17 tiktoken==0.5.2 python-dotenv==1.0.0 langchain-community==0.0.10 langchain-core==0.1.8 openai==1.7.1
+   ```
 
-## Using GPT 3.5
-CrewAI allow you to pass an llm argument to the agent construtor, that will be it's brain, so changing the agent to use GPT-3.5 instead of GPT-4 is as simple as passing that argument on the agent you want to use that LLM (in `main.py`).
-```python
-from langchain.chat_models import ChatOpenAI
+   Additionally, I've installed `faiss-cpu` without specifying a version for flexibility:
+   ```
+   pip install faiss-cpu
+   ```
 
-llm = ChatOpenAI(model='gpt-3.5') # Loading GPT-3.5
+2. **NVIDIA-Specific Analysis:**
+   I've added a specialized analysis for NVIDIA (NVDA) stock, providing deeper insights into the company's performance in key areas such as AI, Gaming, and Data Centers.
 
-def local_expert(self):
-	return Agent(
-      role='The Best Financial Analyst',
-      goal="""Impress all customers with your financial data 
-      and market trends analysis""",
-      backstory="""The most seasoned financial analyst with 
-      lots of expertise in stock market analysis and investment
-      strategies that is working for a super important customer.""",
-      verbose=True,
-      llm=llm, # <----- passing our llm reference here
-      tools=[
-        BrowserTools.scrape_and_summarize_website,
-        SearchTools.search_internet,
-        CalculatorTools.calculate,
-        SECTools.search_10q,
-        SECTools.search_10k
-      ]
-    )
+## Installation
+
+To set up this project, follow these steps:
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+   ```
+
+2. Create and activate a virtual environment (optional but recommended):
+   ```
+   python -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   ```
+
+3. Install the required packages:
+   ```
+   pip install crewai unstructured==0.10.25 pyowm==3.3.0 tools==0.1.9 wikipedia==1.4.0 yfinance==0.2.35 sec-api==1.0.17 tiktoken==0.5.2 python-dotenv==1.0.0 langchain-community==0.0.10 langchain-core==0.1.8 openai==1.7.1
+   pip install faiss-cpu
+   ```
+
+   Note: The `faiss-cpu` package is installed without a specific version to ensure compatibility with the latest updates.
+
+## Features
+
+- General stock analysis for any company
+- Specialized NVIDIA (NVDA) analysis
+- AI-powered insights into stock performance
+- Competitive analysis in the tech sector
+- Utilizes `faiss-cpu` for efficient similarity search and clustering
+- Incorporates `langchain-community` and `langchain-core` for enhanced language model interactions
+- Leverages `crewai` for orchestrating AI agents
+- Uses `yfinance` for fetching stock data
+- Employs `sec-api` for accessing SEC filings
+
+## How to Use
+
+1. Ensure all dependencies are installed and your virtual environment is activated (if using one).
+
+2. Set up your environment variables:
+   Create a `.env` file in the project root and add your API keys:
+   ```
+   OPENAI_API_KEY=your_openai_api_key
+   SEC_API_KEY=your_sec_api_key
+   # Add any other required API keys
+   ```
+
+3. Run the script:
+   ```
+   python main.py
+   ```
+
+4. When prompted, enter the ticker symbol or name of the company you want to analyze (e.g., "NVDA" for NVIDIA).
+
+5. For NVIDIA, the tool will perform both a general analysis and a specialized NVIDIA analysis.
+
+## Sample Output
+
+[Include a brief sample of the output here, especially for the NVIDIA-specific analysis]
+
+## Troubleshooting
+
+If you encounter any issues with `faiss-cpu`, try specifying a version that is compatible with your system:
+```
+pip install faiss-cpu==<compatible_version>
 ```
 
-## Using Local Models with Ollama
-The CrewAI framework supports integration with local models, such as Ollama, for enhanced flexibility and customization. This allows you to utilize your own models, which can be particularly useful for specialized tasks or data privacy concerns.
+Replace `<compatible_version>` with the appropriate version number.
 
-### Setting Up Ollama
-- **Install Ollama**: Ensure that Ollama is properly installed in your environment. Follow the installation guide provided by Ollama for detailed instructions.
-- **Configure Ollama**: Set up Ollama to work with your local model. You will probably need to [tweak the model using a Modelfile](https://github.com/jmorganca/ollama/blob/main/docs/modelfile.md), I'd recommend adding `Observation` as a stop word and playing with `top_p` and `temperature`.
+## Contributing
 
-### Integrating Ollama with CrewAI
-- Instantiate Ollama Model: Create an instance of the Ollama model. You can specify the model and the base URL during instantiation. For example:
-
-```python
-from langchain.llms import Ollama
-ollama_openhermes = Ollama(model="openhermes")
-# Pass Ollama Model to Agents: When creating your agents within the CrewAI framework, you can pass the Ollama model as an argument to the Agent constructor. For instance:
-
-def local_expert(self):
-	return Agent(
-      role='The Best Financial Analyst',
-      goal="""Impress all customers with your financial data 
-      and market trends analysis""",
-      backstory="""The most seasoned financial analyst with 
-      lots of expertise in stock market analysis and investment
-      strategies that is working for a super important customer.""",
-      verbose=True,
-      llm=ollama_openhermes, # Ollama model passed here
-      tools=[
-        BrowserTools.scrape_and_summarize_website,
-        SearchTools.search_internet,
-        CalculatorTools.calculate,
-        SECTools.search_10q,
-        SECTools.search_10k
-      ]
-    )
-```
-
-### Advantages of Using Local Models
-- **Privacy**: Local models allow processing of data within your own infrastructure, ensuring data privacy.
-- **Customization**: You can customize the model to better suit the specific needs of your tasks.
-- **Performance**: Depending on your setup, local models can offer performance benefits, especially in terms of latency.
+While this project is primarily for my personal portfolio, suggestions for improvements are welcome. Feel free to open an issue if you have ideas for enhancing the stock analysis capabilities.
 
 ## License
+
 This project is released under the MIT License.
+
+```
+
+This README now reflects your specific work on the project, including:
+
+1. The exact list of dependencies you installed, with their versions.
+2. A more detailed installation process that matches your setup.
+3. An expanded features list that highlights the key libraries and tools you're using.
+4. A section on setting up environment variables, which is crucial for the project to run correctly.
+5. A note about the project being part of your personal portfolio, which is important for potential employers to understand.
+
+Remember to replace "your-username" and "your-repo-name" with your actual GitHub username and repository name. Also, if you have any screenshots of the tool in action, particularly showing the NVIDIA-specific analysis, you might want to add those to make the README more visually appealing.
